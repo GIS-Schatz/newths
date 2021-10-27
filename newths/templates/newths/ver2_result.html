@@ -1,0 +1,331 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+{% block content %}
+
+    <head>
+        <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+{#        <link rel= "stylesheet" type="text/css" href="{% static 'css/ver2_result.css' %}" class="a">#}
+        <meta charset="UTF-8">
+
+        <style>
+            img {
+            display: block; margin: 0px auto;
+            max-width:10%; max-height:10%;
+            }
+            h1 { text-align: center; color: white;}
+            h2 { text-align: center;}
+            h3 { text-align: center;}
+            #header {
+                background-color:lightgrey;
+                height:100px;
+            }
+
+          {#body{ background-color: #F7FFF5;}#}
+          {#p { width: 600px; }#}
+          {#/* 본문 내 이미지 요소의 'position' 속성을 'absolute'로 지정 */#}
+          {#img.absolute {#}
+          {#  position: absolute;#}
+          {#  left: 700px;#}
+          {#  top: 50px;#}
+          {#}#}
+        </style>
+
+
+
+        </style>
+    </head>
+
+    <body>
+
+
+        <div>
+        {#        <div style="background-color:#212F3D;">#}
+            <h2 style="color: white; text-align: center; margin-bottom: 20px"><span class="span1">첫 번째 추천 맥주는 {{ result.0 }} 입니다.</span></h2>
+        </div>
+
+    <div>
+
+        <img src="/static/beer_img/{{ result.0 }}.jpg" alt="사진은 수집중입니다😢">
+
+
+        <div>
+            <h2>추천 맥주 유형 </h2>
+            <h3>{{ category.0 }}</h3>
+            <h2>어울리는 요리</h2>
+            <h3>{{ food.0 }}</h3>
+        </div>
+    </div>
+
+        <div id='myDiv'></div>
+
+        <script>
+            var data = JSON.parse("{{ targetJson|escapejs }}")
+
+            data = [
+              {
+              type: 'scatterpolar',
+              r: data['cluster3'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: 'Good',
+              marker : { color : 'salmon'}
+              },
+              {
+              type: 'scatterpolar',
+              r: data['cluster2'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: 'SoSo',
+              marker : { color : 'blue'}
+              },
+              {
+              type: 'scatterpolar',
+              r: data['cluster1'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: 'Sad',
+              marker : { color : 'skyblue'}
+              },
+              {
+              type: 'scatterpolar',
+              r: data['beer_cluster1'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: data['beer_name'][0],
+              marker : { color : 'green'}
+              },
+            ]
+
+            layout = {
+              polar: {
+                radialaxis: {
+                  visible: true,
+                  range: [0, 1]
+                }
+              },
+              title: {
+                text:'추천 맥주 클러스터 유형',
+                font: {
+                  size: 24
+                },
+                x : 0.47
+              }
+            }
+
+
+        Plotly.newPlot("myDiv", data, layout)
+        </script>
+
+{#        <div id='line1'></div>#}
+{#        <script>#}
+{#            var data = JSON.parse("{{ targetJson|escapejs }}")#}
+{##}
+{#            var trace1 = {#}
+{#              x: data['tmp_year'][0],#}
+{#              y: data['tmp_ratings'][0],#}
+{#              type: 'scatter'#}
+{#            }#}
+{##}
+{#            var result = [trace1];#}
+{#            layout = {#}
+{#              title: {#}
+{#                text:'추천 맥주의 연도별 평점 트렌드',#}
+{#                font: {#}
+{#                  size: 24#}
+{#                },#}
+{#                x : 0.5#}
+{#              }#}
+{#            }#}
+{#            Plotly.newPlot('line1', result, layout);#}
+{#        </script>#}
+
+
+{#        <div style="background-color:#212F3D;">#}
+        <div>
+            <h2 style="color: white; text-align: center; margin-bottom: 20px"><span class="d_inline">두 번째 추천 맥주는 {{ result.1 }} 입니다</span>.</h2>
+        </div>
+            <img src="static/beer_img/{{ result.1 }}.jpg" alt="사진은 수집중입니다😢">
+
+        <h2>추천 맥주 유형 </h2>
+        <h3>{{ category.1 }}</h3>
+        <h2>어울리는 요리</h2>
+        <h3>{{ food.1 }}</h3>
+        <div id='myDiv2'></div>
+        <script>
+            var data = JSON.parse("{{ targetJson|escapejs }}")
+
+            data = [
+              {
+              type: 'scatterpolar',
+              r: data['cluster3'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: 'Good',
+              marker : { color : 'salmon'}
+              },
+              {
+              type: 'scatterpolar',
+              r: data['cluster2'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: 'SoSo',
+              marker : { color : 'blue'}
+              },
+              {
+              type: 'scatterpolar',
+              r: data['cluster1'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: 'Sad',
+              marker : { color : 'skyblue'}
+              },
+              {
+              type: 'scatterpolar',
+              r: data['beer_cluster2'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: data['beer_name'][1],
+              marker : { color : 'green'}
+              }
+            ]
+
+            layout = {
+              polar: {
+                radialaxis: {
+                  visible: true,
+                  range: [0, 1]
+                }
+              },
+              title: {
+                text:'추천 맥주 클러스터 유형',
+                font: {
+                  size: 24
+                },
+                x : 0.47
+              }
+            }
+
+        Plotly.newPlot("myDiv2", data, layout)
+        </script>
+{#        <div id='line2'></div>#}
+{#        <script>#}
+{#            var data = JSON.parse("{{ targetJson|escapejs }}")#}
+{##}
+{#            var trace1 = {#}
+{#              x: data['tmp_year'][1],#}
+{#              y: data['tmp_ratings'][1],#}
+{#              type: 'scatter'#}
+{#            }#}
+{##}
+{#            var result = [trace1];#}
+{##}
+{#            layout = {#}
+{#              title: {#}
+{#                text:'추천 맥주의 연도별 평점 트렌드',#}
+{#                font: {#}
+{#                  size: 24#}
+{#                },#}
+{#                x : 0.5#}
+{#              }#}
+{#            }#}
+{#            Plotly.newPlot('line2', result, layout);#}
+{#        </script>#}
+
+{#        <div style="background-color:#212F3D;">#}
+        <div>
+            <h2 style="color: white; text-align: center; margin-bottom: 20px"><span class="span1">세 번째 추천 맥주는 {{ result.2 }} 입니다.</span></h2>
+        </div>
+            <img src="static/beer_img/{{ result.2 }}.jpg" alt="사진은 수집중입니다😢">
+
+        <h2>추천 맥주 유형 </h2>
+        <h3>{{ category.2 }}</h3>
+        <h2>어울리는 요리</h2>
+        <h3>{{ food.2 }}</h3>
+        <div id='myDiv3'></div>
+        <script>
+            var data = JSON.parse("{{ targetJson|escapejs }}")
+
+            data = [
+              {
+              type: 'scatterpolar',
+              r: data['cluster3'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: 'Good',
+              marker : { color : 'salmon'}
+              },
+              {
+              type: 'scatterpolar',
+              r: data['cluster1'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: 'Sad',
+              marker : { color : 'skyblue'}
+              },
+              {
+              type: 'scatterpolar',
+              r: data['cluster2'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: 'SoSo',
+              marker : { color : 'blue'}
+              },
+              {
+              type: 'scatterpolar',
+              r: data['beer_cluster3'],
+              theta: ['Aroma', 'Appearance', 'Flavor','Mouthfeel', 'Overall'],
+              fill: 'toself',
+              name: data['beer_name'][2],
+              marker : { color : 'green'}
+              },
+            ]
+
+            layout = {
+              polar: {
+                radialaxis: {
+                  visible: true,
+                  range: [0, 1]
+                }
+              },
+              title: {
+                text:'추천 맥주 클러스터 유형',
+                font: {
+                  size: 24
+                },
+                x : 0.47
+              }
+            }
+
+        Plotly.newPlot("myDiv3", data, layout)
+        </script>
+
+{#        <div id='line3'></div>#}
+{#        <script>#}
+{#            var data = JSON.parse("{{ targetJson|escapejs }}")#}
+{##}
+{#            var trace1 = {#}
+{#              x: data['tmp_year'][2],#}
+{#              y: data['tmp_ratings'][2],#}
+{#              type: 'scatter'#}
+{#            }#}
+{##}
+{#            var result = [trace1];#}
+{##}
+{#            layout = {#}
+{#              title: {#}
+{#                text:'추천 맥주의 연도별 평점 트렌드',#}
+{#                font: {#}
+{#                  size: 24#}
+{#                },#}
+{#                x : 0.5#}
+{#              }#}
+{#            }#}
+{#            Plotly.newPlot('line3', result, layout);#}
+{#        </script>#}
+    </body>
+</html>
+    {% endblock %}
